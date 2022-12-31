@@ -1,6 +1,6 @@
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { RigidBody } from '@react-three/rapier';
+import { CuboidCollider, RigidBody } from '@react-three/rapier';
 import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
@@ -187,27 +187,35 @@ const Wall = ({ length = 1 }) => {
   console.log(length);
   return (
     <>
-      <mesh
-        geometry={BoxGeometry}
-        material={WallMaterial}
-        scale={[length * 4, 4, 0.25]}
-        position={[length * 2 - 2, 2, 2.125]}
-        castShadow
-      />
-      <mesh
-        geometry={BoxGeometry}
-        material={WallMaterial}
-        scale={[length * 4, 4, 0.25]}
-        position={[length * 2 - 2, 2, -2.125]}
-        receiveShadow
-      />
-      <mesh
-        geometry={BoxGeometry}
-        material={WallMaterial}
-        scale={[0.25, 4, 4]}
-        position={[length * 4 - 2, 2, 0]}
-        receiveShadow
-      />
+      <RigidBody type="fixed" restitution={0.2} friction={0}>
+        <mesh
+          geometry={BoxGeometry}
+          material={WallMaterial}
+          scale={[length * 4, 4, 0.25]}
+          position={[length * 2 - 2, 2, 2.125]}
+          castShadow
+        />
+        <mesh
+          geometry={BoxGeometry}
+          material={WallMaterial}
+          scale={[length * 4, 4, 0.25]}
+          position={[length * 2 - 2, 2, -2.125]}
+          receiveShadow
+        />
+        <mesh
+          geometry={BoxGeometry}
+          material={WallMaterial}
+          scale={[0.25, 4, 4]}
+          position={[length * 4 - 2, 2, 0]}
+          receiveShadow
+        />
+        <CuboidCollider
+          args={[length * 2, 0.1, 2]}
+          position={[length * 2 - 2, -0.1, 0]}
+          restitution={0.2}
+          friction={1}
+        />
+      </RigidBody>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { OrbitControls } from '@react-three/drei';
-import { Physics } from '@react-three/rapier';
+import { Debug, Physics } from '@react-three/rapier';
 import Level from './Level';
 import Light from './Light';
 
@@ -8,6 +8,7 @@ function App() {
     <>
       <OrbitControls makeDefault />
       <Physics>
+        <Debug />
         <Light />
 
         <Level />

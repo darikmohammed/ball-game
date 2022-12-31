@@ -1,6 +1,7 @@
+import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { RigidBody } from '@react-three/rapier';
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 THREE.ColorManagement.legacyMode = false;
@@ -14,7 +15,7 @@ const WallMaterial = new THREE.MeshStandardMaterial({ color: 'slategrey' });
 
 //Ref
 
-const BlockStart = ({ position = [0, 0, 0] }) => {
+export const BlockStart = ({ position = [0, 0, 0] }) => {
   return (
     <group position={position}>
       <mesh
@@ -28,7 +29,12 @@ const BlockStart = ({ position = [0, 0, 0] }) => {
   );
 };
 
-const BlockEnd = ({ position = [0, 0, 0] }) => {
+export const BlockEnd = ({ position = [0, 0, 0] }) => {
+  const trophy = useGLTF('./trophy.glb');
+  console.log(trophy.scene);
+  trophy.scene.children.forEach((mesh) => {
+    mesh.castShadow = true;
+  });
   return (
     <group position={position}>
       <mesh
@@ -38,11 +44,20 @@ const BlockEnd = ({ position = [0, 0, 0] }) => {
         position={[0, -0.1, 0]}
         receiveShadow
       ></mesh>
+      <RigidBody
+        type="fixed"
+        colliders="hull"
+        restitution={0.2}
+        friction={0}
+        position={[1, 0.2, 0]}
+      >
+        <primitive object={trophy.scene} scale={0.02} />
+      </RigidBody>
     </group>
   );
 };
 
-const BlockSpinner = ({ position = [0, 0, 0] }) => {
+export const BlockSpinner = ({ position = [0, 0, 0] }) => {
   const Obstacle = useRef();
   const [speed] = useState(
     () => (Math.random() + 0.4) * (Math.random() > 0.5 ? 1 : -1)
@@ -84,7 +99,7 @@ const BlockSpinner = ({ position = [0, 0, 0] }) => {
   );
 };
 
-const BlockLimbo = ({ position = [0, 0, 0] }) => {
+export const BlockLimbo = ({ position = [0, 0, 0] }) => {
   const Obstacle = useRef();
   const [timeOffset] = useState(() => Math.random() * Math.PI * 2);
   useFrame((state) => {
@@ -126,7 +141,7 @@ const BlockLimbo = ({ position = [0, 0, 0] }) => {
   );
 };
 
-const BlockAxe = ({ position = [0, 0, 0] }) => {
+export const BlockAxe = ({ position = [0, 0, 0] }) => {
   const Obstacle = useRef();
   const [timeOffset] = useState(() => Math.random() * Math.PI * 2);
   useFrame((state) => {
@@ -168,16 +183,52 @@ const BlockAxe = ({ position = [0, 0, 0] }) => {
   );
 };
 
-function Level() {
+const Wall = ({ length = 1 }) => {
+  console.log(length);
   return (
     <>
-      <BlockStart position={[4 * -1, 0, 0]} />
-      <BlockSpinner position={[4 * 0, 0, 0]} />
-      <BlockLimbo position={[4 * 1, 0, 0]} />
-      <BlockAxe position={[4 * 2, 0, 0]} />
-      <BlockSpinner position={[4 * 3, 0, 0]} />
-      <BlockLimbo position={[4 * 4, 0, 0]} />
-      <BlockEnd position={[4 * 5, 0, 0]} />
+      <mesh
+        geometry={BoxGeometry}
+        material={WallMaterial}
+        scale={[length * 4, 4, 0.25]}
+        position={[length * 2 - 2, 2, 2.125]}
+        castShadow
+      />
+      <mesh
+        geometry={BoxGeometry}
+        material={WallMaterial}
+        scale={[length * 4, 4, 0.25]}
+        position={[length * 2 - 2, 2, -2.125]}
+        receiveShadow
+      />
+      <mesh
+        geometry={BoxGeometry}
+        material={WallMaterial}
+        scale={[0.25, 4, 4]}
+        position={[length * 4 - 2, 2, 0]}
+        receiveShadow
+      />
+    </>
+  );
+};
+
+function Level({ count = 5, types = [BlockSpinner, BlockAxe, BlockLimbo] }) {
+  const blocks = useMemo(() => {
+    const blocks = [];
+    for (let i = 0; i < count; i++) {
+      blocks.push(types[Math.floor(Math.random() * types.length)]);
+    }
+    return blocks;
+  }, [count, types]);
+
+  return (
+    <>
+      <BlockStart position={[4 * 0, 0, 0]} />
+      {blocks.map((Block, index) => (
+        <Block key={index} position={[(index + 1) * 4, 0, 0]} />
+      ))}
+      <BlockEnd position={[4 * (count + 1), 0, 0]} /> */
+      <Wall length={count + 2} />
     </>
   );
 }

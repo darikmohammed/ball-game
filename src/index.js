@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import { Canvas } from '@react-three/fiber';
 import { KeyboardControls } from '@react-three/drei';
+import Interface from './Interface';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,6 +29,7 @@ root.render(
       >
         <App />
       </Canvas>
+      <Interface />
     </KeyboardControls>
   </React.StrictMode>
 );

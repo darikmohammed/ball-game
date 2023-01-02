@@ -1,17 +1,18 @@
 import { OrbitControls } from '@react-three/drei';
-import { Debug, Physics } from '@react-three/rapier';
+import { Physics } from '@react-three/rapier';
 import Level from './Level';
 import Light from './Light';
+import Player from './Player';
 
 function App() {
   return (
     <>
       <OrbitControls makeDefault />
-      <Physics>
-        <Debug />
-        <Light />
 
+      <Physics>
+        <Light />
         <Level />
+        <Player />
       </Physics>
     </>
   );

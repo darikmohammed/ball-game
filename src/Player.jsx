@@ -16,7 +16,6 @@ function Player() {
     const ray = new rapier.Ray(origin, direction);
     const hit = rapierWorld.castRay(ray, 10, true);
 
-    console.log(hit.toi);
     if (hit.toi < 0.15) {
       player.current.applyImpulse({ x: 0, y: 0.5, z: 0 });
     }

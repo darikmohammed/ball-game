@@ -31,7 +31,6 @@ export const BlockStart = ({ position = [0, 0, 0] }) => {
 
 export const BlockEnd = ({ position = [0, 0, 0] }) => {
   const trophy = useGLTF('./trophy.glb');
-  console.log(trophy.scene);
   trophy.scene.children.forEach((mesh) => {
     mesh.castShadow = true;
   });
@@ -184,7 +183,6 @@ export const BlockAxe = ({ position = [0, 0, 0] }) => {
 };
 
 const Wall = ({ length = 1 }) => {
-  console.log(length);
   return (
     <>
       <RigidBody type="fixed" restitution={0.2} friction={0}>

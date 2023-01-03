@@ -1,4 +1,5 @@
 import { Physics } from '@react-three/rapier';
+import Effect from './Effect';
 import Level from './Level';
 import Light from './Light';
 import Player from './Player';
@@ -10,6 +11,7 @@ function App() {
   return (
     <>
       <color args={['#bdedfc']} attach="background" />
+      {/* <Effect /> */}
       <Physics>
         <Light />
         <Level count={blocksCount} seed={blocksSeed} />

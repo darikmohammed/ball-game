@@ -8,10 +8,26 @@ THREE.ColorManagement.legacyMode = false;
 // Geometry and Material for optimization
 
 const BoxGeometry = new THREE.BoxGeometry(1, 1, 1);
-const FloorMaterial1 = new THREE.MeshStandardMaterial({ color: 'limegreen' });
-const FloorMaterial2 = new THREE.MeshStandardMaterial({ color: 'greenyellow' });
-const ObstacleMaterial = new THREE.MeshStandardMaterial({ color: 'orangered' });
-const WallMaterial = new THREE.MeshStandardMaterial({ color: 'slategrey' });
+const FloorMaterial1 = new THREE.MeshStandardMaterial({
+  color: 'limegreen',
+  metalness: 0,
+  roughness: 0,
+});
+const FloorMaterial2 = new THREE.MeshStandardMaterial({
+  color: 'greenyellow',
+  metalness: 0,
+  roughness: 0,
+});
+const ObstacleMaterial = new THREE.MeshStandardMaterial({
+  color: 'orangered',
+  metalness: 0,
+  roughness: 1,
+});
+const WallMaterial = new THREE.MeshStandardMaterial({
+  color: 'slategrey',
+  metalness: 0,
+  roughness: 0,
+});
 
 //Ref
 
@@ -49,7 +65,7 @@ export const BlockEnd = ({ position = [0, 0, 0] }) => {
   });
   return (
     <group position={position}>
-      <Text scale={0.4} rotation-y={-1.7} position={[-1, 3, 0]}>
+      <Text scale={0.4} rotation-y={-1.7} position={[-1, 2, 0]}>
         FINISH
         <meshStandardMaterial toneMapped={false} />
       </Text>

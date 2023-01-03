@@ -88,7 +88,7 @@ export const BlockSpinner = ({ position = [0, 0, 0] }) => {
         <mesh
           geometry={BoxGeometry}
           material={ObstacleMaterial}
-          scale={[0.2, 0.2, 3]}
+          scale={[0.2, 0.2, 3.5]}
           position={[0, 0.1, 0]}
           castShadow
           receiveShadow

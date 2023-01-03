@@ -15,6 +15,9 @@ function Player() {
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
 
   const start = useGame((state) => state.start);
+  const end = useGame((state) => state.end);
+  const blocksCount = useGame((state) => state.blocksCount);
+  const restart = useGame((state) => state.restart);
 
   const jump = () => {
     const origin = player.current.translation();
@@ -30,7 +33,21 @@ function Player() {
     }
   };
 
+  const reset = () => {
+    console.log('reset function');
+    player.current.setTranslation({ x: 0, y: 1, z: 0 });
+    player.current.setLinvel({ x: 0, y: 0, z: 0 });
+    player.current.setAngvel({ x: 0, y: 0, z: 0 });
+  };
+
   useEffect(() => {
+    const unsubscribeGameReset = useGame.subscribe(
+      (state) => state.phase,
+      (value) => {
+        if (value === 'ready') reset();
+      }
+    );
+
     const unsubscribeJump = subscribeKeys(
       (state) => {
         return state.jump;
@@ -49,6 +66,7 @@ function Player() {
     return () => {
       unsubscribeJump();
       unsubscribeAny();
+      unsubscribeGameReset();
     };
   }, []);
 
@@ -98,6 +116,15 @@ function Player() {
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);
+
+    //Phases
+    if (playerPosition.x > blocksCount * 4 + 2) {
+      end();
+    }
+
+    if (playerPosition.y < -2) {
+      restart();
+    }
   });
 
   return (

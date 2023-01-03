@@ -87,3 +87,7 @@ code {
 .controls .key.active {
   background: #ffffff99;
 }
+
+.hidden {
+  display: none;
+}

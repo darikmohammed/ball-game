@@ -9,6 +9,7 @@ function App() {
   const blocksSeed = useGame((state) => state.blocksSeed);
   return (
     <>
+      <color args={['#bdedfc']} attach="background" />
       <Physics>
         <Light />
         <Level count={blocksCount} seed={blocksSeed} />

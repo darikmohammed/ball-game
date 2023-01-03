@@ -1,4 +1,4 @@
-import { useGLTF } from '@react-three/drei';
+import { Float, Text, useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { CuboidCollider, RigidBody } from '@react-three/rapier';
 import React, { useMemo, useRef, useState } from 'react';
@@ -18,6 +18,19 @@ const WallMaterial = new THREE.MeshStandardMaterial({ color: 'slategrey' });
 export const BlockStart = ({ position = [0, 0, 0] }) => {
   return (
     <group position={position}>
+      <Float floatIntensity={0.25} rotationIntensity={0.25}>
+        <Text
+          scale={0.4}
+          maxWidth={0.25}
+          lineHeight={0.75}
+          textAlign="right"
+          position={[0, 0.65, 0.75]}
+          rotation-y={-1.25}
+        >
+          Raceing Rage!
+          <meshBasicMaterial toneMapped={false} />
+        </Text>
+      </Float>
       <mesh
         geometry={BoxGeometry}
         material={FloorMaterial1}
@@ -36,6 +49,10 @@ export const BlockEnd = ({ position = [0, 0, 0] }) => {
   });
   return (
     <group position={position}>
+      <Text scale={0.4} rotation-y={-1.7} position={[-1, 3, 0]}>
+        FINISH
+        <meshStandardMaterial toneMapped={false} />
+      </Text>
       <mesh
         geometry={BoxGeometry}
         material={FloorMaterial1}

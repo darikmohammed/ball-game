@@ -218,14 +218,18 @@ const Wall = ({ length = 1 }) => {
   );
 };
 
-function Level({ count = 5, types = [BlockSpinner, BlockAxe, BlockLimbo] }) {
+function Level({
+  count = 5,
+  types = [BlockSpinner, BlockAxe, BlockLimbo],
+  seed,
+}) {
   const blocks = useMemo(() => {
     const blocks = [];
     for (let i = 0; i < count; i++) {
       blocks.push(types[Math.floor(Math.random() * types.length)]);
     }
     return blocks;
-  }, [count, types]);
+  }, [count, types, seed]);
 
   return (
     <>
